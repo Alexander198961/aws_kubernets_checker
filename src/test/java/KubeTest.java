@@ -23,6 +23,7 @@ import org.junit.AfterClass;
 import org.apache.http.HttpEntity;
 import static org.junit.Assert.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -36,13 +37,15 @@ import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1PodList;
 import io.kubernetes.client.models.*;
 import ui.DialogInvoker;
+import io.kubernetes.client.PodLogs;
+import org.apache.commons.io.IOUtils;
 
 
 public class KubeTest  extends TestPreparation {
 
 
    private DialogInvoker dialogInvoker = new DialogInvoker();
-
+   private PodLogs podLogs = new PodLogs();
     @Test
     public void  testSendNotification() throws Exception
     {
@@ -66,6 +69,15 @@ public class KubeTest  extends TestPreparation {
                         V1ContainerStateWaiting waitingState = status.getState().getWaiting();
                         if (waitingState.getReason().equals("CrashLoopBackOff") || waitingState.getReason().equals("ImagePullBackOff") || waitingState.getReason().equals("ErrImagePull")) {
                             dialogInvoker.showUiMessage(pod.getMetadata().getName(),  pod.getMetadata().getNamespace());
+                            try {
+                                InputStream inputStream = podLogs.streamNamespacedPodLog(pod);
+                                String podLogs = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+                                System.out.println("pod logs===" + podLogs);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
                         }
 
                     }

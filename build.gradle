@@ -13,8 +13,7 @@ plugins {
 
 dependencies {
 compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.609'
-
-compile group: 'io.kubernetes', name: 'client-java', version: '5.0.0'
+compile group: 'commons-io', name: 'commons-io', version: '2.6'
 compile group: 'io.kubernetes', name: 'client-java', version: '5.0.0'
 
 testImplementation 'junit:junit:4.12'
