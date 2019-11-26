@@ -46,7 +46,7 @@ public class KubeTest  extends TestPreparation {
    private DialogInvoker dialogInvoker = new DialogInvoker();
    private PodLogs podLogs = new PodLogs();
     @Test
-    public void  testSendNotification() throws Exception
+    public void  testSendNotification() throws IOException
     {
 
         int exceptionCount=0;
@@ -64,7 +64,6 @@ public class KubeTest  extends TestPreparation {
                         System.out.println("my pod===" + pod.getMetadata().getName());
                     }
                     else if (status.getState().getWaiting() != null) {
-                        System.out.println("INSIDEE");
                         V1ContainerStateWaiting waitingState = status.getState().getWaiting();
                         if (waitingState.getReason().equals("CrashLoopBackOff") || waitingState.getReason().equals("ImagePullBackOff") || waitingState.getReason().equals("ErrImagePull")) {
                             dialogInvoker.showUiMessage(pod.getMetadata().getName(),  pod.getMetadata().getNamespace());
@@ -74,27 +73,28 @@ public class KubeTest  extends TestPreparation {
                             }catch(ApiException exception)
                             {
                                 System.out.println("Code of exception is ="+exception.getCode());
-
                             }
-                            catch(IOException exception)
+                            catch (IOException ex)
                             {
-                                System.out.println(exception.getCause());
+                                System.out.println("Exception ===="+ex.getCause());
                             }
                             String podLogs = "";
                             try {
                                 podLogs = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
                             }
-                            catch (IOException exception)
+                            catch(IOException exception)
                             {
-                                System.out.println(exception.getCause());
+                                System.out.println("get cause===="+exception.getCause());
                             }
                             finally {
                                 try {
                                     inputStream.close();
-                                }catch (IOException ex)
+                                }
+                                catch (Exception ex)
                                 {
                                     System.out.println(ex.getCause());
                                 }
+
                             }
                                 System.out.println("pod logs===" + podLogs);
 

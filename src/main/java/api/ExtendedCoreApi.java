@@ -11,11 +11,19 @@ import io.kubernetes.client.models.V1PodList;
 public class ExtendedCoreApi  extends  CoreV1Api {
 
 
-    public V1PodList extendedListPodForAllNamespaces() throws  Exception
+    public V1PodList extendedListPodForAllNamespaces()
     {
-        V1PodList podlist = super.listPodForAllNamespaces(null, null, null, null, null, null, null, null , null);
-        if (podlist.getItems().isEmpty() == true )
-            throw new Exception("Should happened");
+        V1PodList podlist = null;
+        try {
+            podlist = super.listPodForAllNamespaces(null, null, null, null, null, null, null, null , null);
+        }
+        catch (ApiException ex)
+        {
+            System.out.println(ex.getCode());
+            throw new IllegalStateException(ex.getCause());
+        }
+        if ( podlist == null || podlist.getItems().isEmpty() == true )
+            throw new IllegalStateException("Should happened");
         return podlist;
     }
 
