@@ -69,8 +69,9 @@ public class KubeTest  extends TestPreparation {
                             dialogInvoker.showUiMessage(pod.getMetadata().getName(),  pod.getMetadata().getNamespace());
                             InputStream inputStream = null;
                             try {
-                                inputStream = podLogs.streamNamespacedPodLog(pod);
-                            }catch(ApiException exception)
+                                inputStream = podLogs.streamNamespacedPodLog(pod.getMetadata().getNamespace(),pod.getMetadata().getName(),null, 200, 70, true);
+                            }
+                            catch(ApiException exception)
                             {
                                 System.out.println("Code of exception is ="+exception.getCode());
                             }
@@ -80,7 +81,9 @@ public class KubeTest  extends TestPreparation {
                             }
                             String podLogs = "";
                             try {
-                                podLogs = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+                                if(inputStream!= null)
+                                    podLogs = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+
                             }
                             catch(IOException exception)
                             {
@@ -88,11 +91,11 @@ public class KubeTest  extends TestPreparation {
                             }
                             finally {
                                 try {
-                                    inputStream.close();
+                                        inputStream.close();
                                 }
                                 catch (Exception ex)
                                 {
-                                    System.out.println(ex.getCause());
+                                    System.out.println(ex.getCause()    );
                                 }
 
                             }
