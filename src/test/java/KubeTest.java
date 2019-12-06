@@ -37,18 +37,17 @@ import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1PodList;
 import io.kubernetes.client.models.*;
 import ui.DialogInvoker;
-import io.kubernetes.client.PodLogs;
-import org.apache.commons.io.IOUtils;
+import api.ExtendedPodLogs;
+
 
 public class KubeTest  extends TestPreparation {
 
 
    private DialogInvoker dialogInvoker = new DialogInvoker();
-   private PodLogs podLogs = new PodLogs();
+   private ExtendedPodLogs podLogs = new ExtendedPodLogs();
     @Test
     public void  testSendNotification() throws IOException
     {
-
         int exceptionCount=0;
         for(V1Pod pod:api.extendedListPodForAllNamespaces().getItems())
         {
@@ -67,42 +66,11 @@ public class KubeTest  extends TestPreparation {
                         V1ContainerStateWaiting waitingState = status.getState().getWaiting();
                         if (waitingState.getReason().equals("CrashLoopBackOff") || waitingState.getReason().equals("ImagePullBackOff") || waitingState.getReason().equals("ErrImagePull")) {
                             dialogInvoker.showUiMessage(pod.getMetadata().getName(),  pod.getMetadata().getNamespace());
-                            InputStream inputStream = null;
-                            try {
-                                inputStream = podLogs.streamNamespacedPodLog(pod.getMetadata().getNamespace(),pod.getMetadata().getName(),null, 200, 70, true);
-                            }
-                            catch(ApiException exception)
-                            {
-                                System.out.println("Code of exception is ="+exception.getCode());
-                            }
-                            catch (IOException ex)
-                            {
-                                System.out.println("Exception ===="+ex.getCause());
-                            }
-                            String podLogs = "";
-                            try {
-                                if(inputStream!= null)
-                                    podLogs = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
-
-                            }
-                            catch(IOException exception)
-                            {
-                                System.out.println("get cause===="+exception.getCause());
-                            }
-                            finally {
-                                try {
-                                        inputStream.close();
-                                }
-                                catch (Exception ex)
-                                {
-                                    System.out.println(ex.getCause()    );
-                                }
-
-                            }
-                                System.out.println("pod logs===" + podLogs);
-
-
+                            System.out.println("pod logs===" + podLogs.getLog(pod));
                         }
+
+                    }
+                    else {
 
                     }
 
