@@ -32,11 +32,10 @@ public class ExtendedPodLogs extends  PodLogs {
             try {
                 inputStream.close();
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 System.out.println(ex.getCause()    );
             }
-
         }
         return podLogs;
     }
