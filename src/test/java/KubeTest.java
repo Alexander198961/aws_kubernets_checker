@@ -36,43 +36,33 @@ import java.util.stream.Collectors;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1PodList;
 import io.kubernetes.client.models.*;
+import strategies.ContainerStateCheckStrategy;
+import strategies.ContainerStateTermitationStrategy;
+import strategies.ContainerStateWaitStrategy;
 import ui.DialogInvoker;
 import api.ExtendedPodLogs;
 
 
 public class KubeTest  extends TestPreparation {
-
-
-   private DialogInvoker dialogInvoker = new DialogInvoker();
-   private ExtendedPodLogs podLogs = new ExtendedPodLogs();
+   private  ContainerStateCheckStrategy strategy;
     @Test
     public void  testSendNotification() throws IOException
     {
         int exceptionCount=0;
+
         for(V1Pod pod:api.extendedListPodForAllNamespaces().getItems())
         {
             if( pod.getStatus().getContainerStatuses()!= null) {
                 pod.getStatus().getContainerStatuses().forEach(status -> {
                     if (status.getState().getTerminated() != null) {
-                        System.out.println("TERMINATED=="+ pod.getMetadata().getNamespace());
-                        V1ContainerStateTerminated terminatedState = status.getState().getTerminated();
-                        String message = terminatedState.getMessage();
-                        if (message != null || terminatedState.getExitCode() > 0 || terminatedState.getReason() == null) {
-                            dialogInvoker.showUiMessage(pod.getMetadata().getName() , pod.getMetadata().getNamespace());
-                        }
-                        System.out.println("my pod===" + pod.getMetadata().getName());
+                        strategy= new ContainerStateTermitationStrategy();
+                        strategy.containerCheck(status.getState(), pod);
                     }
                     else if (status.getState().getWaiting() != null) {
-                        V1ContainerStateWaiting waitingState = status.getState().getWaiting();
-                        if (waitingState.getReason().equals("CrashLoopBackOff") || waitingState.getReason().equals("ImagePullBackOff") || waitingState.getReason().equals("ErrImagePull")) {
-                            dialogInvoker.showUiMessage(pod.getMetadata().getName(),  pod.getMetadata().getNamespace());
-                            System.out.println("pod logs===" + podLogs.getLog(pod));
-                        }
-
+                        strategy= new ContainerStateWaitStrategy();
+                        strategy.containerCheck(status.getState(), pod);
                     }
-                    else {
 
-                    }
 
                 });
             }
