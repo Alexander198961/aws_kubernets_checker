@@ -52,7 +52,6 @@ class EksAuthenticator implements Authenticator {
      */
     @Override
     public Map<String, Object> refresh(Map<String, Object> config) {
-        System.out.println("REFRESHHHHH!!!!!!!!!");
         String clusterName = (String) config.get("cluster-name");
         if (clusterName == null) {
             throw new RuntimeException("cluster-name missing in auth-provider configuration in kube config file");
