@@ -12,20 +12,20 @@ public class ExtendedPodLogs extends  PodLogs {
     public String getLog(V1Pod pod)
     {
         InputStream inputStream = null;
-        String podLogs = "";
+        String podLog = "";
         try {
             inputStream = super.streamNamespacedPodLog(pod.getMetadata().getNamespace(),pod.getMetadata().getName(),null, 200, 70, true);
             if(inputStream!= null)
-                podLogs = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+                podLog = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
         }
         catch(io.kubernetes.client.ApiException exception)
         {
             System.out.println("Code of exception is ="+exception.getCode());
             return "";
         }
-        catch (IOException ex)
+        catch (IOException ioException)
         {
-            System.out.println("Exception ===="+ex.getCause());
+            System.out.println("Exception ===="+ioException.getCause());
             return "";
         }
         finally {
@@ -34,9 +34,9 @@ public class ExtendedPodLogs extends  PodLogs {
             }
             catch (IOException ex)
             {
-                System.out.println(ex.getCause()    );
+                System.out.println(ex.getCause());
             }
         }
-        return podLogs;
+        return podLog;
     }
 }
