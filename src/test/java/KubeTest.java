@@ -48,7 +48,6 @@ public class KubeTest  extends TestPreparation {
     @Test
     public void  testSendNotification() throws IOException
     {
-        int exceptionCount=0;
 
         for(V1Pod pod:api.extendedListPodForAllNamespaces().getItems())
         {
