@@ -11,6 +11,6 @@ public class ContainerStateTermitationStrategy implements ContainerStateCheckStr
         if (message != null || terminatedState.getExitCode() > 0 || terminatedState.getReason() == null) {
             dialogInvoker.showUiMessage(pod.getMetadata().getName() , pod.getMetadata().getNamespace());
         }
-        System.out.println("my pod===" + pod.getMetadata().getName());
+        System.out.println("pod name=" + pod.getMetadata().getName());
     }
 }
