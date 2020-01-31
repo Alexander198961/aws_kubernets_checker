@@ -1,4 +1,4 @@
-package ui;
+package com.kubernetes.check.ui;
 
 import javax.swing.*;
 

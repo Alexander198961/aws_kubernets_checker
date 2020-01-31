@@ -1,4 +1,4 @@
-package api;
+package com.kubernetes.check.api;
 
 import io.kubernetes.client.apis.CoreV1Api;
 import io.kubernetes.client.models.V1EndpointsList;

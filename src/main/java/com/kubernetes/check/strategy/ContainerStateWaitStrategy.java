@@ -1,8 +1,8 @@
-package strategies;
+package com.kubernetes.check.strategy;
 
-import api.ExtendedPodLogs;
+import com.kubernetes.check.api.ExtendedPodLogs;
 import io.kubernetes.client.models.*;
-import ui.DialogInvoker;
+import com.kubernetes.check.ui.DialogInvoker;
 
 public class ContainerStateWaitStrategy implements ContainerStateCheckStrategy {
     private DialogInvoker dialogInvoker = new DialogInvoker();

@@ -1,6 +1,6 @@
-package strategies;
+package com.kubernetes.check.strategy;
 import io.kubernetes.client.models.*;
-import ui.DialogInvoker;
+import com.kubernetes.check.ui.DialogInvoker;
 
 public class ContainerStateTermitationStrategy implements ContainerStateCheckStrategy {
     private DialogInvoker dialogInvoker = new DialogInvoker();

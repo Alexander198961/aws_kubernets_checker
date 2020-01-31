@@ -1,4 +1,4 @@
-package strategies;
+package com.kubernetes.check.strategy;
 import io.kubernetes.client.models.*;
 
 public interface ContainerStateCheckStrategy {

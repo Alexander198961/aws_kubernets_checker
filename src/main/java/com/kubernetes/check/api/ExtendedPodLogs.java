@@ -1,4 +1,4 @@
-package api;
+package com.kubernetes.check.api;
 import io.kubernetes.client.PodLogs;
 
 import java.io.IOException;
