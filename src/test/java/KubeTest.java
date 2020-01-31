@@ -46,7 +46,7 @@ import api.ExtendedPodLogs;
 public class KubeTest  extends TestPreparation {
    private  ContainerStateCheckStrategy strategy;
     @Test
-    public void  testSendNotification() throws IOException
+    public void  testSendNotification() throws Exception
     {
 
         for(V1Pod pod:api.extendedListPodForAllNamespaces().getItems())
