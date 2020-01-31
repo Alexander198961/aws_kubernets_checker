@@ -13,17 +13,17 @@ public class ExtendedCoreApi  extends  CoreV1Api {
 
     public V1PodList extendedListPodForAllNamespaces()
     {
-        V1PodList podlist = null;
+        V1PodList podList = null;
         try {
-            podlist = super.listPodForAllNamespaces(null, null, null, null, null, null, null, null , null);
+            podList = super.listPodForAllNamespaces(null, null, null, null, null, null, null, null , null);
         }
         catch (ApiException ex)
         {
             System.out.println(ex.getCode());
             throw new IllegalStateException(ex.getCause());
         }
-        if ( podlist == null || podlist.getItems().isEmpty() == true )
-            throw new IllegalStateException("Should happened");
+        if ( podList == null || podList.getItems().isEmpty() == true )
+            throw new IllegalStateException("Pod list is empty");
         return podlist;
     }
 
