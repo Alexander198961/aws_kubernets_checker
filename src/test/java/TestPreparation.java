@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.kubernetes.check.api.ExtendedCoreApi;
+import com.kubernetes.check.token.EksAuthenticator;
 import org.junit.BeforeClass;
 import org.junit.Before;
 import io.kubernetes.client.ApiClient;
