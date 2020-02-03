@@ -17,6 +17,7 @@ import org.junit.AfterClass;
 import org.apache.http.HttpEntity;
 import static org.junit.Assert.*;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import io.kubernetes.client.models.V1EndpointsList;
 import io.kubernetes.client.models.V1Endpoints;
@@ -53,6 +54,7 @@ public class KubeTest  extends TestPreparation {
             }
 
         }
+
 
     }
 

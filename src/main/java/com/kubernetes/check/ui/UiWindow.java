@@ -2,7 +2,7 @@ package com.kubernetes.check.ui;
 
 import javax.swing.*;
 
-public class DialogInvoker {
+public class UiWindow {
 
     public void showUiMessage(String podName, String namespace)
     {

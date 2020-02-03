@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 
 public class ExtendedPodLogs extends  PodLogs {
 
-    public String getLog(V1Pod pod)
+    public String readContainerLog(V1Pod pod)
     {
         InputStream inputStream = null;
         String podLog = "";
@@ -32,9 +32,9 @@ public class ExtendedPodLogs extends  PodLogs {
             try {
                 inputStream.close();
             }
-            catch (IOException ex)
+            catch (IOException exception)
             {
-                System.out.println(ex.getCause());
+                System.out.println(exception.getCause());
             }
         }
         return podLog;
