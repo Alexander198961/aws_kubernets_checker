@@ -1,3 +1,5 @@
+package com.kubernetes.check.token;
+
 import com.amazonaws.DefaultRequest;
 import com.amazonaws.Request;
 import com.amazonaws.auth.AWS4Signer;
@@ -19,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Workaround for this issue:
      * https://github.com/kubernetes-client/java/issues/315
  */
-class EksAuthenticator implements Authenticator {
+public class EksAuthenticator implements Authenticator {
     @Override
     public String getName() {
         return "eks";
