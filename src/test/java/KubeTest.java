@@ -32,30 +32,28 @@ import com.kubernetes.check.strategy.ContainerStateWaitStrategy;
 
 public class KubeTest  extends TestPreparation {
    private  ContainerStateCheckStrategy strategy;
+
     @Test
-    public void  testSendNotification() throws  ApiException,IOException
+    public void check() throws Exception
     {
+      Stream<V1Pod> podStream =    api.extendedListPodForAllNamespaces().getItems().stream();
+      podStream.filter( pod -> pod.getStatus().getContainerStatuses()!= null).forEach(this::process);
+    }
 
-        for(V1Pod pod:api.extendedListPodForAllNamespaces().getItems())
-        {
-            if( pod.getStatus().getContainerStatuses()!= null) {
-                pod.getStatus().getContainerStatuses().forEach(status -> {
-                    if (status.getState().getTerminated() != null) {
-                        strategy= new ContainerStateTermitationStrategy();
-                        strategy.containerCheck(status.getState(), pod);
-                    }
-                    else if (status.getState().getWaiting() != null) {
-                        strategy= new ContainerStateWaitStrategy();
-                        strategy.containerCheck(status.getState(), pod);
-                    }
-
-
-                });
+    private void process(V1Pod pod)
+    {
+        pod.getStatus().getContainerStatuses().forEach(status -> {
+            if (status.getState().getTerminated() != null) {
+                strategy= new ContainerStateTermitationStrategy();
+                strategy.containerCheck(status.getState(), pod);
+            }
+            else if (status.getState().getWaiting() != null) {
+                strategy= new ContainerStateWaitStrategy();
+                strategy.containerCheck(status.getState(), pod);
             }
 
-        }
 
-
+        });
     }
 
 
