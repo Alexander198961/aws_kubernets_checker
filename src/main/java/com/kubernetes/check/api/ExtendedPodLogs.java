@@ -16,10 +16,8 @@ public class ExtendedPodLogs extends  PodLogs {
         String podLog = "";
         try (InputStream inputStream = super.streamNamespacedPodLog(pod.getMetadata().getNamespace(),pod.getMetadata().getName(),null, 200, 70, true) )
         {
-            if(inputStream!= null) {
-                podLog = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
-                //System.out.println("pod log is===" + podLog);
-            }
+            podLog = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+
         }
         catch (Exception ex)
         {
