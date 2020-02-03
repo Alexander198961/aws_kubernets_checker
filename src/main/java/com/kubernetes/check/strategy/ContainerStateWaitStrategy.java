@@ -3,7 +3,6 @@ package com.kubernetes.check.strategy;
 import com.kubernetes.check.api.ExtendedPodLogs;
 import com.kubernetes.check.ui.UiWindow;
 import io.kubernetes.client.models.*;
-import com.kubernetes.check.ui.DialogInvoker;
 
 public class ContainerStateWaitStrategy implements ContainerStateCheckStrategy {
     private UiWindow uiWindow = new UiWindow();
