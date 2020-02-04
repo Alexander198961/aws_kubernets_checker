@@ -38,10 +38,15 @@ public class KubeTest  extends TestPreparation {
     @Test
     public void check() throws Exception
     {
-      Stream<V1Pod> podStream =  api.extendedListPodForAllNamespaces().getItems().stream();
+      Stream<V1Pod> podStream =  getAllPodsAsStream();
       podStream.filter( pod -> pod.getStatus().getContainerStatuses()!= null && !pod.getStatus().getPhase().equals("Succeeded") ).forEach(podHandler::processPodWithNotNullContainerStatus);
-      podStream = api.extendedListPodForAllNamespaces().getItems().stream();
+      podStream = getAllPodsAsStream();
       podStream.filter(pod -> pod.getStatus().getContainerStatuses() == null).forEach(podHandler::processPodWithContainerStatusNull);
+    }
+
+    public  Stream<V1Pod> getAllPodsAsStream()
+    {
+       return api.extendedListPodForAllNamespaces().getItems().stream();
     }
 
 
