@@ -2,7 +2,7 @@ package com.kubernetes.check.strategy;
 import io.kubernetes.client.models.*;
 import com.kubernetes.check.ui.UiWindow;
 
-public class ContainerStateTermitationStrategy implements ContainerStateCheckStrategy {
+public class ContainerStateTerminationStrategy implements ContainerStateCheckStrategy {
     private UiWindow uiWindow = new UiWindow();
     @Override
     public void containerCheck(V1ContainerState state, V1Pod pod) {
