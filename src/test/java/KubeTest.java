@@ -33,20 +33,22 @@ import com.kubernetes.check.strategy.ContainerStateWaitStrategy;
 
 public class KubeTest  extends TestPreparation {
 
-   private PodHandler podHandler = new PodHandler();
+    PodHandler podHandler = new PodHandler();
 
     @Test
     public void check() throws Exception
     {
+
       Stream<V1Pod> podStream =  getAllPodsAsStream();
       podStream.filter( pod -> pod.getStatus().getContainerStatuses()!= null && !pod.getStatus().getPhase().equals("Succeeded") ).forEach(podHandler::processPodWithNotNullContainerStatus);
       podStream = getAllPodsAsStream();
       podStream.filter(pod -> pod.getStatus().getContainerStatuses() == null).forEach(podHandler::processPodWithContainerStatusNull);
     }
 
-    public  Stream<V1Pod> getAllPodsAsStream()
+    public  Stream<V1Pod> getAllPodsAsStream() throws ApiException
     {
-       return api.extendedListPodForAllNamespaces().getItems().stream();
+
+        return api.extendedListPodForAllNamespaces().getItems().stream();
     }
 
 
