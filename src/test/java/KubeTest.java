@@ -1,5 +1,6 @@
 
 import com.kubernetes.check.processing.PodHandler;
+import com.kubernetes.check.processing.PodStream;
 import io.kubernetes.client.ApiClient;
 import io.kubernetes.client.ApiException;
 import io.kubernetes.client.Configuration;
@@ -33,29 +34,17 @@ import com.kubernetes.check.strategy.ContainerStateWaitStrategy;
 
 public class KubeTest  extends TestPreparation {
 
-    PodHandler podHandler = new PodHandler();
+
+
 
     @Test
     public void check() throws Exception
     {
-
-      Stream<V1Pod> podStream =  getAllPodsAsStream();
-      podStream.filter( pod -> pod.getStatus().getContainerStatuses()!= null && !pod.getStatus().getPhase().equals("Succeeded") ).forEach(podHandler::processPodWithNotNullContainerStatus);
-      podStream = getAllPodsAsStream();
-      podStream.filter(pod -> pod.getStatus().getContainerStatuses() == null).forEach(podHandler::processPodWithContainerStatusNull);
+        PodStream  podStream  = new PodStream();
+        PodHandler podHandler = new PodHandler();
+      Stream<V1Pod> stream =  podStream.getAllPodsAsStream();
+      stream.filter( pod -> pod.getStatus().getContainerStatuses()!= null && !pod.getStatus().getPhase().equals("Succeeded") ).forEach(podHandler::processPodWithNotNullContainerStatus);
+      stream = podStream.getAllPodsAsStream();
+      stream.filter(pod -> pod.getStatus().getContainerStatuses() == null).forEach(podHandler::processPodWithContainerStatusNull);
     }
-
-    public  Stream<V1Pod> getAllPodsAsStream() throws ApiException
-    {
-
-        return api.extendedListPodForAllNamespaces().getItems().stream();
-    }
-
-
-
-
-
-
-
-
 }

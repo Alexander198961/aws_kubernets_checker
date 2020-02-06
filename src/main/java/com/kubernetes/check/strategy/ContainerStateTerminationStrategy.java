@@ -9,7 +9,7 @@ public class ContainerStateTerminationStrategy implements ContainerStateCheckStr
         V1ContainerStateTerminated terminatedState = state.getTerminated();
         String message = terminatedState.getMessage();
         if (message != null || terminatedState.getExitCode() > 0 || terminatedState.getReason() == null) {
-            uiWindow.showUiMessage(pod.getMetadata().getName() , pod.getMetadata().getNamespace());
+            System.out.println("Terminated pod ===" + pod.getMetadata().getName() );
         }
         System.out.println("pod name=" + pod.getMetadata().getName());
     }

@@ -11,7 +11,6 @@ public class ContainerStateWaitStrategy implements ContainerStateCheckStrategy {
     public void containerCheck(V1ContainerState state , V1Pod pod) {
         V1ContainerStateWaiting waitingState = state.getWaiting();
         if (waitingState.getReason().equals("CrashLoopBackOff") || waitingState.getReason().equals("ImagePullBackOff") || waitingState.getReason().equals("ErrImagePull")) {
-            uiWindow.showUiMessage(pod.getMetadata().getName(),  pod.getMetadata().getNamespace());
             System.out.println("pod logs===" + pod.getMetadata().getName() + "====  " + podLogs.readContainerLog(pod));
         }
     }

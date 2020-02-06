@@ -7,7 +7,7 @@
  */
 
 plugins {
-    // Apply the java-library plugin to add support for Java Library
+    id "com.github.johnrengelman.shadow" version "5.2.0"
     id 'java-library'
 }
 
@@ -15,9 +15,18 @@ dependencies {
 compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.609'
 compile group: 'commons-io', name: 'commons-io', version: '2.6'
 compile group: 'io.kubernetes', name: 'client-java', version: '5.0.0'
-
 testImplementation 'junit:junit:4.12'
 }
+
+shadowJar {
+  zip64 true
+}
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.kubernetes.check.app.AppMain'
+    }
+}
+project.tasks.assemble.dependsOn project.tasks.shadowJar
 
 repositories {
     mavenLocal()

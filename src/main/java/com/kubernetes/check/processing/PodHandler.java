@@ -19,11 +19,11 @@ public class PodHandler {
     {
         pod.getStatus().getContainerStatuses().forEach(status -> {
             if (status.getState().getTerminated() != null) {
-                strategy= new ContainerStateTerminationStrategy();
+                strategy = new ContainerStateTerminationStrategy();
                 strategy.containerCheck(status.getState(), pod);
             }
             else if (status.getState().getWaiting() != null) {
-                strategy= new ContainerStateWaitStrategy();
+                strategy = new ContainerStateWaitStrategy();
                 strategy.containerCheck(status.getState(), pod);
             }
 

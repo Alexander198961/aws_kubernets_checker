@@ -1,4 +1,4 @@
-package com.kubernetes.check.token;
+package com.kubernetes.check.auth;
 
 import com.amazonaws.DefaultRequest;
 import com.amazonaws.Request;
