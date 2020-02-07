@@ -12,7 +12,7 @@ public class PodHandler {
     private  ContainerStateCheckStrategy strategy;
     public void processPodWithContainerStatusNull(V1Pod pod)
     {
-        System.out.println("Container status null=="+ pod.getMetadata().getName());
+        System.out.println("Pod  "+ pod.getMetadata().getName() + "   isn't running");
     }
 
     public void processPodWithNotNullContainerStatus(V1Pod pod)
